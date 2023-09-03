@@ -33,8 +33,9 @@ void convertToMorse(String input, int* morseArray)
     }
 
     // Either we found our value or read through all of our characters and didnt find anything...
-      // We need to have an array of arrays... iterate through each entry
-     Serial.println(currentLetter->letter);
+    // We need to have an array of arrays... iterate through each entry
+    Serial.println(currentLetter->letter);
+    
     // Set our index to the array of morse code values
     //morseArray[index] = currentLetter->values;
     index++;
