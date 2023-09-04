@@ -11,6 +11,7 @@ Professor Doug Ferguson
 
 #include "Morse_Convert.h"
 #include "Serial_Handler.h"
+#include "Blink_Handler.h"
 
 void setup ()
 {
@@ -26,6 +27,7 @@ void loop()
 
   // Create an array of pointers to arrays and allocate accordingly 
   int** morseArray = new int*[MAX_INPUT];
+
   // should prob allocate in morse_convert so we dont have empty space in our arrays...
     // just get length of the corresponding character array and allocate that as needed 
   for (int i=0; i<MAX_INPUT; i++)
@@ -37,8 +39,7 @@ void loop()
 
   convertToMorse(userInput, &morseArray);
 
-  // Now iterate through morseArray; for each entry send all values in the subarray as power intervals to our bulb and then make appropiate pauses between letters and spaces
-
+  blinkLed(morseArray);
 
   // Call cleanup at some point to free the memory we allocated 
   

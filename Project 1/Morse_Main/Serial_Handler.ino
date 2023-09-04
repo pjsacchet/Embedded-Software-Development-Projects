@@ -24,6 +24,7 @@ String parseInput()
 
   // remove any \r \n whitespace at the end of the String
   messageString.trim();
+  
   // remove uppercase to simplify encoder
   messageString.toLowerCase();
 

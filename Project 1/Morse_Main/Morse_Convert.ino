@@ -25,18 +25,27 @@ void convertToMorse(String input, int*** morseArray)
     char currentLetter = morseChars[morseIndex];
     char currentChar = input[index];
 
+    Serial.println(MORSE_VALUES); 
+
     // Go through all our morse code values until we find the right letter
-    while((strcmp(&currentChar, &currentLetter) != 0) && morseIndex <= MORSE_VALUES)
+    while((strcmp(&currentChar, &currentLetter) != 0) && morseIndex < MORSE_VALUES)
     {
       morseIndex++;
       currentLetter = morseChars[morseIndex];
     }
 
     // For each entry in the morse array add it to our own array
+    int i;
     int arrayLength = sizeof(&morseValues[morseIndex])/sizeof(int);
-    for(int i=0; i<arrayLength; i++)
+    for(i=0; i<arrayLength; i++)
     {
       *morseArray[index][i] = morseValues[morseIndex][i];
+    }
+
+    // Add same letter space only if the next letter is not an empty space
+    if (strcmp(&input[index+1], &morseChars[MORSE_VALUES-1]) != 0)
+    {
+      *morseArray[index][i+1] = SAME_LETTER_SPACE;
     }
 
     // Next user letter
