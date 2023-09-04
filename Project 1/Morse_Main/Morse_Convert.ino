@@ -10,33 +10,36 @@ Professor Doug Ferguson
 
 /** Parses through passed string and inputs corresponding morse code values into the output array for display
 params: input - user provided input string
-        morseArray - array for storing morse value arrays 
+        morseArray - array for storing morse value arrays (should be an array of arrays)
 returns: N/A (we store the appropiate morse code values in the provided array)
 */
-void convertToMorse(String input, int* morseArray)
+void convertToMorse(String input, int*** morseArray)
 {
   // Parse through each letter of our input string
-  unsigned int index = 0;
+  unsigned int index = 0; // where we are in our user provided string 
   while(index < input.length())
   {
-    unsigned int morseIndex = 0;
+    unsigned int morseIndex = 0; // where we are in our morse dictionary 
 
     // Get our first letter
-    morseLetter* currentLetter = &morseValues[morseIndex];
+    char currentLetter = morseChars[morseIndex];
     char currentChar = input[index];
 
     // Go through all our morse code values until we find the right letter
-    while((strcmp(&currentChar, &currentLetter->letter) != 0) && morseIndex <= MORSE_VALUES)
+    while((strcmp(&currentChar, &currentLetter) != 0) && morseIndex <= MORSE_VALUES)
     {
       morseIndex++;
-      //currentLetter = &morseValues[morseIndex];
+      currentLetter = morseChars[morseIndex];
     }
 
-    // Either we found our value or read through all of our characters and didnt find anything...
-      // We need to have an array of arrays... iterate through each entry
-     Serial.println(currentLetter->letter);
-    // Set our index to the array of morse code values
-    //morseArray[index] = currentLetter->values;
+    // For each entry in the morse array add it to our own array
+    int arrayLength = sizeof(&morseValues[morseIndex])/sizeof(int);
+    for(int i=0; i<arrayLength; i++)
+    {
+      *morseArray[index][i] = morseValues[morseIndex][i];
+    }
+
+    // Next user letter
     index++;
   }
 }
