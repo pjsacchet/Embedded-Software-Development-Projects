@@ -12,12 +12,11 @@ Professor Doug Ferguson
 #include "Morse_Convert.h"
 #include "Serial_Handler.h"
 
-int outputPin = 13; // pin number for LED
-
 void setup ()
 {
   Serial.begin(9600); // send and receive at 9600 baud
-  pinMode(outputPin, OUTPUT); 
+  // initialize digital pin LED_BUILTIN as an output.
+  pinMode(LED_BUILTIN, OUTPUT);
 }
 
 void loop()
@@ -35,7 +34,7 @@ void loop()
   }
 
   String userInput = parseInput();
-  userInput.toLowerCase();
+
   convertToMorse(userInput, &morseArray);
 
   // Now iterate through morseArray; for each entry send all values in the subarray as power intervals to our bulb and then make appropiate pauses between letters and spaces

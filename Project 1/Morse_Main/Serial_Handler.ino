@@ -14,18 +14,18 @@ Professor Doug Ferguson
 */
 String parseInput()
 {
-  
-  // Take user string, split it into bytes, place bytes in buffer and return 
-  while (Serial.available()== 0) {} // this syntax is wack?
-  
-    String input = Serial.readString();
-     
-     // Check the user didn't go over our max value (and any other string sanitation we want here)
+  Serial.println("Enter morse code message:");
 
+  //wait for data available
+  while (Serial.available() == 0) {}
 
-    
-    
-  
+  //read until timeout
+  String messageString = Serial.readString();
 
-  return input;
+  // remove any \r \n whitespace at the end of the String
+  messageString.trim();
+  // remove uppercase to simplify encoder
+  messageString.toLowerCase();
+
+  return messageString;
 }
