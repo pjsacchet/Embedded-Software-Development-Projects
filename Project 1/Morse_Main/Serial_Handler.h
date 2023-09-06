@@ -1,3 +1,3 @@
-const int MAX_INPUT = 256; // standard Windows max file path
+const int MAX_INPUT = 20; // standard Windows max file path
 
 String parseInput();

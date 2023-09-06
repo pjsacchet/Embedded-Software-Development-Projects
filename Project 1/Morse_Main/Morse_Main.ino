@@ -13,11 +13,25 @@ Professor Doug Ferguson
 #include "Serial_Handler.h"
 #include "Blink_Handler.h"
 
+int** morseArray;
+
 void setup ()
 {
   Serial.begin(9600); // send and receive at 9600 baud
   // initialize digital pin LED_BUILTIN as an output.
   pinMode(LED_BUILTIN, OUTPUT);
+
+  morseArray = (int**) malloc(sizeof(int*)*MAX_INPUT);
+  //morseArray = (int**) alloca(sizeof(int*)*MAX_INPUT);
+
+  // should prob allocate in morse_convert so we dont have empty space in our arrays...
+    // just get length of the corresponding character array and allocate that as needed 
+  //for (int i=0; i<MAX_INPUT; i++)
+  //{
+    //morseArray[i] = new int[MORSE_MAX];
+  //  morseArray[i] = (int*)malloc( sizeof(int) *MORSE_MAX);
+    //morseArray[i] = (int*)alloca( sizeof(int) *MORSE_MAX);
+  //}
 }
 
 void loop()
@@ -26,18 +40,20 @@ void loop()
     // light display array, then parse through the array to output the morse code message 
 
   // Create an array of pointers to arrays and allocate accordingly 
-  int** morseArray = new int*[MAX_INPUT];
+  //int** morseArray = new int*[MAX_INPUT];
+  //int** morseArray = (int**) malloc(sizeof(int*)*MAX_INPUT);
 
   // should prob allocate in morse_convert so we dont have empty space in our arrays...
     // just get length of the corresponding character array and allocate that as needed 
-  for (int i=0; i<MAX_INPUT; i++)
-  {
-    morseArray[i] = new int[MORSE_MAX];
-  }
+  //for (int i=0; i<MAX_INPUT; i++)
+  //{
+    //morseArray[i] = new int[MORSE_MAX];
+   // morseArray[i] = malloc( sizeof(int) *MORSE_MAX);
+  //}
 
   String userInput = parseInput();
 
-  convertToMorse(userInput, &morseArray);
+  convertToMorse(userInput, morseArray);
 
   blinkLed(morseArray);
 

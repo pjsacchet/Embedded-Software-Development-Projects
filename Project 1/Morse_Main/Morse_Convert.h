@@ -50,4 +50,4 @@ int morseValues[MORSE_VALUES] [MORSE_MAX] = {
                     {WORD_SPACE}
                     };
 
-void convertToMorse(String input, int*** morseArray);
+void convertToMorse(String input, int**& morseArray);
