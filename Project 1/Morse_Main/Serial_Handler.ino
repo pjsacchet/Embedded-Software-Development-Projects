@@ -20,14 +20,9 @@ String parseInput()
   while (Serial.available() == 0) {}
 
   //read until timeout
-  
- // messageString.reserve(MAX_INPUT);
   String messageString = Serial.readString();
 
   Serial.println(messageString);
-
-  //char messageChar = Serial.read();
-  //Serial.print(messageChar);
 
   // remove any \r \n whitespace at the end of the String
   messageString.trim();

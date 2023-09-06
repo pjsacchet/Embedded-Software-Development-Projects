@@ -12,7 +12,7 @@ void blinkLed(int**& morseArray)
 {
   int index = 0;
 
-  Serial.println(sizeof(**morseArray)); // I dont know how to get this proper length yet...
+  Serial.println(sizeof(morseArray)); // I dont know how to get this proper length yet...
 
   while(index < sizeof(morseArray)) // go through each 'letter' == get each array
   {
@@ -68,7 +68,6 @@ void blinkLed(int**& morseArray)
             break;
         }
       }
-
       i++; // get next entry in the array
     }
 
