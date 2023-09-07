@@ -8,24 +8,23 @@ Professor Doug Ferguson
 
 // This program will generate a blink sequene via the onboardLED
 
-void blinkLed(int**& morseArray)
+void blinkLed(int size, int**& morseArray)
 {
   int index = 0;
+  Serial.println("The size of input message was:");
+  Serial.println(size);
 
-  Serial.println(sizeof(morseArray)); // I dont know how to get this proper length yet...
-
-  while(index < sizeof(morseArray)) // go through each 'letter' == get each array
+  while(index < size) // go through each 'letter' == get each array
   {
     // NOTE: We expect after every letter will end with a LETTER SPACE. Thus, in the event
     // that there is a space between words, we spimply add 4 more seconds of delay to get
     // the full 7 seconds of LED low
 
     int i = 0;
-    Serial.println(sizeof(morseArray[index])/sizeof(int));
     while(i < MORSE_MAX)
     {
       int currentValue = morseArray[index][i]; // get each element in each array
-      Serial.println(currentValue);
+      //Serial.println(currentValue);
 
       if (currentValue != 0) // only blink for our actual values since we needed to allocate six spots per array
       {
@@ -40,6 +39,8 @@ void blinkLed(int**& morseArray)
               digitalWrite(LED_BUILTIN, LOW);  // turn the LED on (HIGH is the voltage level)
               delay(DOT);
             }
+
+            Serial.println("DOT");
             break;
 
           case DASH:
@@ -51,16 +52,19 @@ void blinkLed(int**& morseArray)
               digitalWrite(LED_BUILTIN, LOW);  // turn the LED on (HIGH is the voltage level)
               delay(DOT);
             }
+            Serial.println("DASH");
             break;
 
           case LETTER_SPACE:
             digitalWrite(LED_BUILTIN, LOW);  // turn the LED on (HIGH is the voltage level)
             delay(LETTER_SPACE);
+            Serial.println("LETTER SPACE");
             break;
 
           case WORD_SPACE:
             digitalWrite(LED_BUILTIN, LOW);  // turn the LED on (HIGH is the voltage level)
             delay(LETTER_SPACE + 4000);
+            Serial.println("WORD SPACE");
             break;
             
           default:

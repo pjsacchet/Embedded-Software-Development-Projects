@@ -13,7 +13,7 @@ params: input - user provided input string
         morseArray - array for storing morse value arrays (should be an array of arrays)
 returns: N/A (we store the appropiate morse code values in the provided array)
 */
-void convertToMorse(String input, int**& morseArray)
+int convertToMorse(String input, int**& morseArray)
 {
   // Parse through each letter of our input string
   unsigned int index = 0; // where we are in our user provided string 
@@ -25,7 +25,7 @@ void convertToMorse(String input, int**& morseArray)
     char currentLetter = morseChars[morseIndex];
     char currentChar = input[index];
 
-    Serial.println(currentChar);
+    //Serial.println(currentChar);
 
     morseArray[index] = (int*)malloc( sizeof(int) *MORSE_MAX);
 
@@ -50,7 +50,7 @@ void convertToMorse(String input, int**& morseArray)
     {
       // We'll add all values of our array including zeros...
       morseArray[index][i] = morseValues[morseIndex][i];
-      Serial.println(morseArray[index][i]);
+      //Serial.println(morseArray[index][i]);
       
     }
 
@@ -61,9 +61,11 @@ void convertToMorse(String input, int**& morseArray)
       *morseArray[index][i+1] = SAME_LETTER_SPACE;
     }
     */
-    Serial.println("GOT ONE");
+    //Serial.println("GOT ONE");
 
     // Next user letter
     index++;
   }
+  
+  return input.length();
 }
