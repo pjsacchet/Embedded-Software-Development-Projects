@@ -30,5 +30,11 @@ String parseInput()
   // remove uppercase to simplify encoder
   messageString.toLowerCase();
 
+  if(messageString == "exit()")
+  {
+    Serial.println("Goodbye!");
+    exit(0);
+  }
+
   return messageString;
 }
