@@ -63,7 +63,8 @@ void blinkLed(int size, int**& morseArray)
 
           case WORD_SPACE:
             digitalWrite(LED_BUILTIN, LOW);  // turn the LED on (HIGH is the voltage level)
-            delay(LETTER_SPACE + 4000);
+            // Note we assume every letter ends with letter space so we need to account for that delay below
+            delay(WORD_SPACE - LETTER_SPACE);
             Serial.println("WORD SPACE");
             break;
             

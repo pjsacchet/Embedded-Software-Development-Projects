@@ -45,12 +45,25 @@ int convertToMorse(String input, int**& morseArray)
 
     // This is going to spit out six everytime because I had to initialize the morseValues array as a double array with a specified size value for columns 
     int arrayLength = sizeof(morseValues[morseIndex])/sizeof(int);
+    bool letterSpace = false;   // Flag used to properly add a letter space to our array
 
     for(i=0; i<arrayLength; i++)
     {
-      // We'll add all values of our array including zeros...
-      morseArray[index][i] = morseValues[morseIndex][i];
-      //Serial.println(morseArray[index][i]);
+      if((morseValues[morseIndex][i] == 0) && (letterSpace == false))
+      {
+        letterSpace = true;   // Flag that we've reached the letter space at the FIRST zero in the array
+        morseArray[index][i] = LETTER_SPACE;
+      }
+      else
+      {
+        // We'll add all values of our array including zeros...
+        morseArray[index][i] = morseValues[morseIndex][i];
+        if(morseValues[morseIndex][i] == WORD_SPACE)
+        {
+          letterSpace = true; // added to make sure we dont add extra delays after a word space
+        }
+        //Serial.println(morseArray[index][i]);
+      }
       
     }
 
