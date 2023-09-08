@@ -11,7 +11,7 @@ Professor Doug Ferguson
 /** Parses through passed string and inputs corresponding morse code values into the output array for display
 params: input - user provided input string
         morseArray - array for storing morse value arrays (should be an array of arrays)
-returns: N/A (we store the appropiate morse code values in the provided array)
+returns: size of the resulting array
 */
 int convertToMorse(String input, int**& morseArray)
 {
@@ -24,8 +24,6 @@ int convertToMorse(String input, int**& morseArray)
     // Get our first letter
     char currentLetter = morseChars[morseIndex];
     char currentChar = input[index];
-
-    //Serial.println(currentChar);
 
     morseArray[index] = (int*)malloc( sizeof(int) *MORSE_MAX);
 
@@ -62,19 +60,8 @@ int convertToMorse(String input, int**& morseArray)
         {
           letterSpace = true; // added to make sure we dont add extra delays after a word space
         }
-        //Serial.println(morseArray[index][i]);
-      }
-      
+      }  
     }
-
-    /**
-    // Add same letter space only if the next letter is not an empty space
-    if (strcmp(&input[index+1], &morseChars[MORSE_VALUES-1]) != 0)
-    {
-      *morseArray[index][i+1] = SAME_LETTER_SPACE;
-    }
-    */
-    //Serial.println("GOT ONE");
 
     // Next user letter
     index++;

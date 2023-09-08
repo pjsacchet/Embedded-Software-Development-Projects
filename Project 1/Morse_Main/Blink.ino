@@ -8,6 +8,11 @@ Professor Doug Ferguson
 
 // This program will generate a blink sequene via the onboardLED
 
+/** Generates the corresponding blink outputs to our Arduino
+ prarms: size - size of the array
+         morseArray - already constructed morse code 2D array
+ returns: string of user input
+*/
 void blinkLed(int size, int**& morseArray)
 {
   int index = 0;
@@ -24,7 +29,6 @@ void blinkLed(int size, int**& morseArray)
     while(i < MORSE_MAX)
     {
       int currentValue = morseArray[index][i]; // get each element in each array
-      //Serial.println(currentValue);
 
       if (currentValue != 0) // only blink for our actual values since we needed to allocate six spots per array
       {

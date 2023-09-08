@@ -27,16 +27,10 @@ void setup ()
 void loop()
 {
   int sizeOfInputMessage = 0;
-
-  // Each time we loop take an input string from the user as an array; for each character in the array, send it to our morse code converter to get the 
-    // light display array, then parse through the array to output the morse code message 
-
+  // Take input from user
   String userInput = parseInput();
-
+  // Convert input into 2D array, each element containing the corresponding letter's morse values
   sizeOfInputMessage = convertToMorse(userInput, morseArray);
-
+  // Convert our morse values to blink output 
   blinkLed(sizeOfInputMessage,morseArray);
-
-  // Call cleanup at some point to free the memory we allocated 
-  
 }
