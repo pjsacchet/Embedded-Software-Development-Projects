@@ -13,6 +13,8 @@ Professor Doug Ferguson
   // - Adafruit Unified Sensor Lib: https://github.com/adafruit/Adafruit_Sensor
 
 #include "DHT.h"
+#include <avr/io.h>
+#include <avr/interrupt.h>
 
 #define DHTPIN 2     // Digital pin connected to the DHT sensor
 
@@ -20,26 +22,69 @@ Professor Doug Ferguson
 //#define DHTTYPE DHT22   // DHT 22  (AM2302), AM2321
 //#define DHTTYPE DHT21   // DHT 21 (AM2301)
 
+// Note the following calculations were taken to get the correct timing
+// sytemclock = 16 MHz
+// prescalarTimer1 = 256
+// speedTimer1 = 16MHz / 256 = 62.5KHz
+// pulseTime = 1/62.5KHz = 16us
+// OCR register = 1s / 16us = 62500
+unsigned int reload = 0xF424;     // max count for clock reg with 1 second percision (62500)
+volatile byte count;
+
 // Initialize DHT sensor.
 DHT dht(DHTPIN, DHTTYPE);
 
+// Timer 1 ISR
+ISR(TIMER1_COMPA_vect)
+{
+  // increment count every second
+  count++;
+  Serial.print("Count is: ");
+  Serial.println(count);
+}
+
 void setup() {
   Serial.begin(9600);
-
+  
+  //initialize the temp sensor
   dht.begin();
+
+  // initialize timer one for 1s percision
+  cli();
+  TCCR1A = 0;
+  TCCR1B = 0; 
+  OCR1A = reload;
+  TCCR1B = (1<<WGM12) | (1<<CS12); 
+  TIMSK1 = (1<<OCIE1A); 
+  sei(); 
+  Serial.println("TIMER1 Setup Finished.");
 }
 
 void loop() {
+
+  float f = 0;
+  float h = 0;
+  float t = 0;
+
   // Wait ten seconds between measurements
-  delay(10000);
+  // delay(10000);
 
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (its a very slow sensor)
-  float h = dht.readHumidity();
+    // check if it has been 10 seconds
+  if(count == 10)
+  {
+    f = dht.readTemperature(true);
+    Serial.print("Temperature = ");
+    Serial.print(f);
+    Serial.println("°F");
+    count = 0;
+  }
+  h = dht.readHumidity();
   // Read temperature as Celsius (the default)
-  float t = dht.readTemperature();
+  t = dht.readTemperature();
   // Read temperature as Fahrenheit (isFahrenheit = true)
-  float f = dht.readTemperature(true);
+  // float f = dht.readTemperature(true);
 
   // Check if any reads failed and exit early (to try again).
   if (isnan(h) || isnan(t) || isnan(f)) {
@@ -57,7 +102,7 @@ void loop() {
   //Serial.print(F("%  Temperature: "));
   //Serial.print(t);
   //Serial.print(F("°C "));
-  Serial.println(f);
+  //Serial.println(f);
   //Serial.print(F("°F  Heat index: "));
   //Serial.print(hic);
   //Serial.print(F("°C "));
