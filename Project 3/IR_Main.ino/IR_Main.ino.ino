@@ -11,8 +11,7 @@ unsigned long timeOld;
 
 void rpm_fun()
 {
-  // Each rotation, this interrupt is run twice
-  // Update count (really just need this, not a flashy light)
+  // Update our rpm count 
   rpmCount++;
 }
 
@@ -30,7 +29,6 @@ void setup()
   rpmCount = 0;
   timeOld = 0;
   status = LOW;
-  
 } 
   
 void loop() 
@@ -49,24 +47,6 @@ void loop()
  
   // restart interrupt
   attachInterrupt(0, rpm_fun, RISING);
-
-  // Previous code I used for threashold handling 
-  /**
-  int val=analogRead(senRead); //variable to store values from the photodiode 
-  Serial.println(val); // prints the values from the sensor in serial monitor 
-  if(val <= limit) //If obstacle is nearer than the Threshold range 
-  { 
-    //digitalWrite(buzz,HIGH); // Buzzer will be in ON state    
-    Serial.println("Value is less than  limit!");
-    delay(1000); 
-  } 
-  else if(val > limit) //If obstacle is not in Threshold range 
-  { 
-    //digitalWrite(buzz,LOW); //Buzzer will be in OFF state 
-    Serial.println("Value is greater than limit!");
-    delay(1000); 
-  } 
-  */
 }
 
 
