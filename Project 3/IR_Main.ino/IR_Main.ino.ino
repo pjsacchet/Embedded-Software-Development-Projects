@@ -1,13 +1,7 @@
+volatile byte rpmCount; // Total rpm count
 int pd=2; //Photodiode to digital pin 2
-int senRead=0; //Readings from sensor to analog pin 0 
-int limit=650; //Threshold range of an obstacle 
-
-volatile byte rpmCount;
-volatile int status;
-
-unsigned int rpm;
-
-unsigned long timeOld;
+unsigned int rpm; // Calculated rpm count
+unsigned long timeOld; // Time from last read
 
 void rpm_fun()
 {
@@ -28,7 +22,6 @@ void setup()
   rpm = 0;
   rpmCount = 0;
   timeOld = 0;
-  status = LOW;
 } 
   
 void loop() 
@@ -46,8 +39,5 @@ void loop()
   Serial.println(rpm, DEC);
  
   // restart interrupt
-  attachInterrupt(0, rpm_fun, RISING);
+  attachInterrupt(0, rpm_fun, FALLING);
 }
-
-
- 
