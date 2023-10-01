@@ -39,5 +39,5 @@ void loop()
   Serial.println(rpm, DEC);
  
   // restart interrupt
-  attachInterrupt(0, rpm_fun, FALLING);
+  attachInterrupt(0, rpm_fun, RISING);
 }
