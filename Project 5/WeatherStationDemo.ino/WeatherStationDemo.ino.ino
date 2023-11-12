@@ -1,3 +1,5 @@
+#include <Adafruit_BNO055.h>
+
 /**The MIT License (MIT)
 
 Copyright (c) 2018 by Daniel Eichhorn - ThingPulse

@@ -1,3 +1,4 @@
+#include <Arduino_FreeRTOS.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BNO055.h>
@@ -34,6 +35,9 @@
 // Check I2C device address and correct line below (by default address is 0x29 or 0x28)
 //                                   id, address
 Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28, &Wire);
+
+// Our RTOS task we'll be using
+void TaskReadData (void * pvParamters);
 
 /**************************************************************************/
 /*
@@ -120,29 +124,8 @@ void displayCalStatus(void)
 /**************************************************************************/
 void setup(void)
 {
-  Serial.begin(115200);
-
-  while (!Serial) delay(10);  // wait for serial port to open!
-
-  Serial.println("Orientation Sensor Test"); Serial.println("");
-
-  /* Initialise the sensor */
-  if(!bno.begin())
-  {
-    /* There was a problem detecting the BNO055 ... check your connections */
-    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
-    while(1);
-  }
-
-  delay(1000);
-
-  /* Display some basic information on this sensor */
-  displaySensorDetails();
-
-  /* Optional: Display current status */
-  displaySensorStatus();
-
-  bno.setExtCrystalUse(true);
+  // NDefine our RTOS task
+  xTaskCreate(TaskReadData, "ReadData", 256, NULL, 3, NULL);
 }
 
 /**************************************************************************/
@@ -151,29 +134,48 @@ void setup(void)
     should go here)
 */
 /**************************************************************************/
+// Do not need this loop since we have events now 
 void loop(void)
 {
-  /* Get a new sensor event */
-  sensors_event_t event;
-  bno.getEvent(&event);
 
-  /* Display the floating point data */
-  Serial.print("X: ");
-  Serial.print(event.orientation.x, 4);
-  Serial.print("\tY: ");
-  Serial.print(event.orientation.y, 4);
-  Serial.print("\tZ: ");
-  Serial.print(event.orientation.z, 4);
+}
 
-  /* Optional: Display calibration status */
-  displayCalStatus();
+// Our RTOS function; will never return or exit
+void TaskReadData(void* pvParameters)
+{
+  Serial.begin(115200);
 
-  /* Optional: Display sensor status (debug only) */
-  //displaySensorStatus();
+  while (!Serial) delay(10);  // wait for serial port to open!
 
-  /* New line for the next sample */
-  Serial.println("");
+  // Initialize sensor
+  if(!bno.begin())
+  {
+    Serial.print("Ooops, no BNO055 detected ... Check your wiring or I2C ADDR!");
+    while(1);
+  }
 
-  /* Wait the specified delay before requesting nex data */
-  delay(BNO055_SAMPLERATE_DELAY_MS);
+  delay(1000);
+
+  bno.setExtCrystalUse(true);
+
+  // Print our roll, pitch and yaw data then pause before polling for new data 
+  for(;;)
+  {
+    sensors_event_t event;
+    bno.getEvent(&event);
+
+  
+    Serial.print("X: ");
+    Serial.print(event.orientation.x, 4);
+    Serial.print("\tY: ");
+    Serial.print(event.orientation.y, 4);
+    Serial.print("\tZ: ");
+    Serial.print(event.orientation.z, 4);
+
+    /// New line for next sample
+    Serial.println("");
+
+    // Wait for delay time before polling for new data 
+    delay(BNO055_SAMPLERATE_DELAY_MS);
+  }
 }
