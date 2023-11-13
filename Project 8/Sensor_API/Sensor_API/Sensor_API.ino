@@ -1,3 +1,11 @@
+/**
+Project 8 - Transmit Pitch Roll & Yaw data
+Patrick Sacchet, Robert Walsh
+EN.605.715.81.FA23
+Professor Doug Ferguson
+19NOV23
+*/
+
 #include <Arduino_FreeRTOS.h>
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
@@ -36,30 +44,10 @@
 //                                   id, address
 Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28, &Wire);
 
-// Our RTOS task we'll be using
-void TaskReadData (void * pvParamters);
+// Our RTOS tasks we'll be using
+void TaskReadData (void *pvParamters);
 
-/**************************************************************************/
-/*
-    Displays some basic information on this sensor from the unified
-    sensor API sensor_t type (see Adafruit_Sensor for more information)
-*/
-/**************************************************************************/
-void displaySensorDetails(void)
-{
-  sensor_t sensor;
-  bno.getSensor(&sensor);
-  Serial.println("------------------------------------");
-  Serial.print  ("Sensor:       "); Serial.println(sensor.name);
-  Serial.print  ("Driver Ver:   "); Serial.println(sensor.version);
-  Serial.print  ("Unique ID:    "); Serial.println(sensor.sensor_id);
-  Serial.print  ("Max Value:    "); Serial.print(sensor.max_value); Serial.println(" xxx");
-  Serial.print  ("Min Value:    "); Serial.print(sensor.min_value); Serial.println(" xxx");
-  Serial.print  ("Resolution:   "); Serial.print(sensor.resolution); Serial.println(" xxx");
-  Serial.println("------------------------------------");
-  Serial.println("");
-  delay(500);
-}
+void TaskDisplaySensorStatus(void *pvParameters);
 
 /**************************************************************************/
 /*
@@ -87,45 +75,16 @@ void displaySensorStatus(void)
 
 /**************************************************************************/
 /*
-    Display sensor calibration status
-*/
-/**************************************************************************/
-void displayCalStatus(void)
-{
-  /* Get the four calibration values (0..3) */
-  /* Any sensor data reporting 0 should be ignored, */
-  /* 3 means 'fully calibrated" */
-  uint8_t system, gyro, accel, mag;
-  system = gyro = accel = mag = 0;
-  bno.getCalibration(&system, &gyro, &accel, &mag);
-
-  /* The data should be ignored until the system calibration is > 0 */
-  Serial.print("\t");
-  if (!system)
-  {
-    Serial.print("! ");
-  }
-
-  /* Display the individual values */
-  Serial.print("Sys:");
-  Serial.print(system, DEC);
-  Serial.print(" G:");
-  Serial.print(gyro, DEC);
-  Serial.print(" A:");
-  Serial.print(accel, DEC);
-  Serial.print(" M:");
-  Serial.print(mag, DEC);
-}
-
-/**************************************************************************/
-/*
     Arduino setup function (automatically called at startup)
 */
 /**************************************************************************/
 void setup(void)
 {
-  // NDefine our RTOS task
+  // Define our RTOS tasks (highest priority)
   xTaskCreate(TaskReadData, "ReadData", 256, NULL, 3, NULL);
+
+  xTaskCreate(TaskReadSensorStatus, "ReadSensor", 256, NULL, -1, NULL);
+
 }
 
 /**************************************************************************/
@@ -134,10 +93,19 @@ void setup(void)
     should go here)
 */
 /**************************************************************************/
+
 // Do not need this loop since we have events now 
 void loop(void)
 {
 
+}
+
+void TaskReadSensorStatus(void *pvParameters)
+{
+  for (;;)
+  {
+    displaySensorStatus();
+  }
 }
 
 // Our RTOS function; will never return or exit
