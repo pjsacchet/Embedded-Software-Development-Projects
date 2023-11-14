@@ -15,14 +15,14 @@ def main():
     ser = serial.Serial('/dev/ttyACM0', 115200, timeout=1)
     ser.reset_input_buffer()
 
-with open ("test.txt", "w+") as outputfile:
-    while True:
-        if ser.in_waiting > 0:
-            line = ser.readline().decode('utf-8').rstrip()
-            #os.write(line)
-            outputfile.write(line)
+    with open ("test.txt", "w+") as outputfile:
+        while True:
+            if ser.in_waiting > 0:
+                line = ser.readline().decode('utf-8').rstrip()
+                #os.write(line)
+                outputfile.write(line)
 
-            print(line)
+                print(line)
 
 if __name__ == '__main__':
     main()
