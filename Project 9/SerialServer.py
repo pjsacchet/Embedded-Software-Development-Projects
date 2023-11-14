@@ -3,6 +3,7 @@ import dbus
 import dbus.service
 import dbus.mainloop.glib
 from gi.repository import GLib
+import subprocess
 
 
 class Profile(dbus.service.Object):
@@ -34,8 +35,14 @@ class Profile(dbus.service.Object):
     def io_cb(self, fd, conditions):
         data = os.read(fd, 1024)
         print('Callback Data: {0}'.format(data.decode('ascii')))
-        command = data.decode('ascii')
-        os.system(command)
+        #command = data.decode('ascii')
+        file = data.decode('ascii')
+        #os.system(command)
+        os.write(fd, bytes(subprocess.check_output(['python', file])) + b'\n')
+
+
+
+
         #os.write(fd, bytes(output.rstrip()) + b'\n')
         # dont write back to our listener... write our output!
         #os.write(fd, bytes(list(reversed(data.rstrip()))) + b'\n')

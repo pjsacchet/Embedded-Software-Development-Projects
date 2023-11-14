@@ -18,8 +18,8 @@ def main():
     while True:
         if ser.in_waiting > 0:
             line = ser.readline().decode('utf-8').rstrip()
-            os.write(line)
-            #print(line)
+            #os.write(line)
+            print(line)
 
 if __name__ == '__main__':
     main()
