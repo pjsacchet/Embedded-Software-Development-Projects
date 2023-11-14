@@ -36,11 +36,11 @@ class Profile(dbus.service.Object):
         data = os.read(fd, 1024)
         print('Callback Data: {0}'.format(data.decode('ascii')))
         #command = data.decode('ascii')
-        file = data.decode('ascii').rstrip()
-        if (file!= '' and len(file) != 0 and file != '\r'):
-            #os.system(command)
+        command = data.decode('ascii').rstrip()
+        #if (file!= '' and len(file) != 0 and file != '\r'):
+        os.system(command)
             # technically works but wont work unless program terminates
-            os.write(fd, bytes(subprocess.check_output(['python', file])) + b'\n')
+            #os.write(fd, bytes(subprocess.check_output(['python', file])) + b'\n')
         '''
         popen = subprocess.Popen(["python", file], stdout=subprocess.PIPE, universal_newlines=True)
         for stdout_line in iter(popen.stdout.readline, ""):
