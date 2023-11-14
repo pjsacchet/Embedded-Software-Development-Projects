@@ -35,19 +35,20 @@ class Profile(dbus.service.Object):
     def io_cb(self, fd, conditions):
         data = os.read(fd, 1024)
         print('Callback Data: {0}'.format(data.decode('ascii')))
-        #command = data.decode('ascii')
+        #command = data.decode('ascii').rstrip()
         file = data.decode('ascii').rstrip()
         if (file!= '' and len(file) != 0 and file != '\r'):
         #os.system(command)
             # technically works but wont work unless program terminates
-            #os.write(fd, bytes(subprocess.check_output(['python', file])) + b'\n')
-
+            os.write(fd, bytes(subprocess.check_output(['python', file])) + b'\n')
+            '''
             popen = subprocess.Popen(["python", file], stdout=subprocess.PIPE, universal_newlines=True)
             for stdout_line in iter(popen.stdout.readline, ""):
                 os.write(fd, bytes(stdout_line) + b'\n')
                 yield stdout_line
             popen.stdout.close()
             return_code = popen.wait()
+            '''
 
 
 
