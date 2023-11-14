@@ -1,0 +1,7 @@
+1) On Pi - run python SerialServer.py
+2) On Pi - run bluetoothctl to accept connections
+3) On Windows terminal - run python Client.py ( this should connect them)
+4) On Windows go to Devices and Printers, right click on your PC and select bluetooth settings
+5) Add outgoing COM connection - should list raspberry pi as option as well as COM port number
+6) On Windows run Putty with COM port number and serial rate (115200)
+7) Commands sent to Pi should be mirrored on Pi and run within the context of the shell, writing output to the COM connection
