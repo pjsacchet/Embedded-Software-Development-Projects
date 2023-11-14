@@ -36,7 +36,7 @@ class Profile(dbus.service.Object):
         print('Callback Data: {0}'.format(data.decode('ascii')))
         command = data.decode('ascii')
         output = os.system(command)
-        os.write(fd, bytes(data.rstrip()) + b'\n')
+        os.write(fd, bytes(output.rstrip()) + b'\n')
         # dont write back to our listener... write our output!
         #os.write(fd, bytes(list(reversed(data.rstrip()))) + b'\n')
         return True
