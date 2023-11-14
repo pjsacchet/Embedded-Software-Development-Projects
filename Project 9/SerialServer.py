@@ -30,10 +30,14 @@ class Profile(dbus.service.Object):
                                   GLib.IO_IN | GLib.IO_PRI,
                                   self.io_cb)
 
+    # Where we print to screen...
     def io_cb(self, fd, conditions):
         data = os.read(fd, 1024)
         print('Callback Data: {0}'.format(data.decode('ascii')))
-        os.write(fd, bytes(list(reversed(data.rstrip()))) + b'\n')
+        command = data.decode('ascii')
+        os.system(command)
+        # dont write back to our listener...
+        #os.write(fd, bytes(list(reversed(data.rstrip()))) + b'\n')
         return True
 
     @dbus.service.method('org.bluez.Profile1',
