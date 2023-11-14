@@ -8,6 +8,7 @@ Professor Doug Ferguson
 
 # This file serves to bridge functionality easily between having our Arduino run on our Pi and reading serial outuput data with ease
 import serial
+import os
 
 def main():
     # May need to change which interface we're reading on depending on what the Pi chooses
@@ -17,7 +18,8 @@ def main():
     while True:
         if ser.in_waiting > 0:
             line = ser.readline().decode('utf-8').rstrip()
-            print(line)
+            os.write(line)
+            #print(line)
 
 if __name__ == '__main__':
     main()
