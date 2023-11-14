@@ -36,7 +36,7 @@ class Profile(dbus.service.Object):
         data = os.read(fd, 1024)
         print('Callback Data: {0}'.format(data.decode('ascii')))
         #command = data.decode('ascii')
-        file = data.decode('ascii')
+        file = data.decode('ascii').rstrip()
         #os.system(command)
         os.write(fd, bytes(subprocess.check_output(['python', file])) + b'\n')
 
