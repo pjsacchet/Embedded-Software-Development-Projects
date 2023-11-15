@@ -20,7 +20,7 @@ def readCom(fd):
     while True:
         if ser.in_waiting > 0:
             line = ser.readline().decode('utf-8').rstrip()
-            os.write(fd, bytes(line, 'utf-8') + b'\n')
+            os.write(fd, bytes(line, 'utf-8'))
             #outputfile.write(line)
             print(line)
 
