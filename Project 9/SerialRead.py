@@ -21,7 +21,7 @@ def readCom(fd):
         if ser.in_waiting > 0:
             try:
                 line = ser.readline().decode('utf-8').rstrip()
-                os.write(fd, bytes(line, 'utf-8'))
+                os.write(fd, bytes(line, 'utf-8') + b'\n')
                 #outputfile.write(line)
                 #print(line)
             except Exception as e:
