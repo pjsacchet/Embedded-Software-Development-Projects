@@ -40,7 +40,7 @@ class Profile(dbus.service.Object):
         #file = data.decode('ascii').rstrip()
         #if (file!= '' and len(file) != 0 and file != '\r'):
         #os.system(command)
-        SerialRead.readCom(fd)
+        readCom(fd)
 
 
 
