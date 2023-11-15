@@ -23,7 +23,7 @@ def readCom(fd):
                 line = ser.readline().decode('utf-8').rstrip()
                 os.write(fd, bytes(line, 'utf-8'))
                 #outputfile.write(line)
-                print(line)
+                #print(line)
             except Exception as e:
                 continue
 
