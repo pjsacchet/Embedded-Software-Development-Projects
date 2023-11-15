@@ -5,6 +5,7 @@ import dbus.mainloop.glib
 from gi.repository import GLib
 import subprocess
 
+from SerialRead import *
 
 class Profile(dbus.service.Object):
     fd = -1
@@ -38,7 +39,16 @@ class Profile(dbus.service.Object):
         command = data.decode('ascii').rstrip()
         #file = data.decode('ascii').rstrip()
         #if (file!= '' and len(file) != 0 and file != '\r'):
-        os.system(command)
+        #os.system(command)
+        SerialRead.readCom(fd)
+
+
+
+
+
+
+
+
         # technically works but wont work unless program terminates
         #subprocess.Popen(['python', file])
         #os.write(fd, bytes(subprocess.check_output(['python', file])) + b'\n')

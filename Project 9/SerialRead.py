@@ -10,6 +10,21 @@ Professor Doug Ferguson
 import serial
 import os
 
+
+def readCom(fd):
+    # May need to change which interface we're reading on depending on what the Pi chooses
+    ser = serial.Serial('/dev/ttyACM0', 115200, timeout=1)
+    ser.reset_input_buffer()
+
+    #with open ("test.txt", "w+") as outputfile:
+    while True:
+        if ser.in_waiting > 0:
+            line = ser.readline().decode('utf-8').rstrip()
+            os.write(fd, line)
+            #outputfile.write(line)
+            print(line)
+
+
 def main():
     # May need to change which interface we're reading on depending on what the Pi chooses
     ser = serial.Serial('/dev/ttyACM0', 115200, timeout=1)
