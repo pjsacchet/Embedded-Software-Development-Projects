@@ -19,10 +19,13 @@ def readCom(fd):
     #with open ("test.txt", "w+") as outputfile:
     while True:
         if ser.in_waiting > 0:
-            line = ser.readline().decode('utf-8').rstrip()
-            os.write(fd, bytes(line, 'utf-8'))
-            #outputfile.write(line)
-            print(line)
+            try:
+                line = ser.readline().decode('utf-8').rstrip()
+                os.write(fd, bytes(line, 'utf-8'))
+                #outputfile.write(line)
+                print(line)
+            except Exception as e:
+                continue
 
 
 def main():
