@@ -1,4 +1,4 @@
-import smbus
+import smbus2
 import time
 
 # Purpose of this program is to send messages and request IMU data via I2C from the Arduino slave
@@ -9,15 +9,15 @@ import time
 
 f = open("imu_data.txt", "w")
 # for RPI version 1, use bus = smbus.SMBus(0)
-bus = smbus.SMBus(1)
+bus = smbus2.SMBus(1)
 # This is the address we setup in the Arduino Program
 #SLAVE_ADDRESS = 0x04
 SLAVE_ADDRESS = 0x28
 
 def request_reading():
     # Read a block of 12 bytes starting at SLAVE_ADDRESS, offset 0
-    #reading = bus.read_i2c_block_data(SLAVE_ADDRESS, 0, 12)
-    reading = bus.read_i2c_block_data(SLAVE_ADDRESS, 0)
+    reading = bus.read_i2c_block_data(SLAVE_ADDRESS, 0, 12)
+    #reading = bus.read_i2c_block_data(SLAVE_ADDRESS, 0)
 
     # Extract the IMU reading data
     if reading[0] < 1:
