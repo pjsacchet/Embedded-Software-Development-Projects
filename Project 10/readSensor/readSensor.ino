@@ -207,8 +207,8 @@ Arduino setup function (automatically called at startup)
 /**************************************************************************/
 void setup(void)
 {
-  //Serial.begin(9600);
-  //Serial.println("Orientation Sensor Test"); Serial.println("");
+  Serial.begin(9600);
+
   /* Initialise the sensor */
   if(!bno.begin())
   {
@@ -217,12 +217,9 @@ void setup(void)
     while(1);
   }
   delay(1000);
-  /* Display some basic information on this sensor */
-  //displaySensorDetails();
-  /* Optional: Display current status */
-  //displaySensorStatus();
+
   bno.setExtCrystalUse(true);
-  //pinMode(ledPin, OUTPUT); // This is used for testing.
+
   Wire.begin(SLAVE_ADDRESS); // Set up the Wire library and make Arduino the slave
   /* Define the callbacks for i2c communication */
   Wire.onReceive(processMessage); // Used to specify a function when data received from Master
@@ -241,9 +238,9 @@ void loop(void)
     sensors_event_t event;
     bno.getEvent(&event);
     /* Display the floating point data */
-    //Serial.print("Yaw: ");
+    Serial.print("Yaw: ");
     yaw = (int) event.orientation.x;
-    //Serial.print(yaw);
+    Serial.print(yaw);
     if (yaw < 0) 
     {
       imu_data[8] = 1; // Capture the sign information
@@ -257,9 +254,9 @@ void loop(void)
     {
       yaw = yaw - 360; // Calculate equivalent angle
     }
-    //Serial.print("\tPitch: ");
+    Serial.print("\tPitch: ");
     pitch = (int) event.orientation.y;
-    //Serial.print(pitch);
+    Serial.print(pitch);
     if (pitch < 0) 
     {
       imu_data[4] = 1; // Capture the sign information
@@ -269,9 +266,9 @@ void loop(void)
     {
       imu_data[4] = 0;
     }
-    //Serial.print("\tRoll: ");
+    Serial.print("\tRoll: ");
     roll = (int) event.orientation.z;
-    //Serial.print(roll);
+    Serial.print(roll);
     if (roll < 0) 
     {
       imu_data[0] = 1; // Capture the sign information
@@ -281,12 +278,9 @@ void loop(void)
     {
       imu_data[0] = 0;
     }
-    /* Optional: Display calibration status */
-    //displayCalStatus();
-    /* Optional: Display sensor status (debug only) */
-    //displaySensorStatus();
+
     /* New line for the next sample */
-    //Serial.println("");
+    Serial.println("");
     /* Update the IMU data by extracting each digit from the raw data */
     imu_data[1] = getDigit(roll, 2);
     imu_data[2] = getDigit(roll, 1);
@@ -299,7 +293,6 @@ void loop(void)
     imu_data[11] = getDigit(yaw, 0);
     /* Wait the specified delay before requesting nex data */
     delay(BNO055_SAMPLERATE_DELAY_MS);
-    //end_program();
   }
   // Do nothing
   while (true){};
