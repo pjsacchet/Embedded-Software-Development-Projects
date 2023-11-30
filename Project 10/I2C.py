@@ -16,7 +16,8 @@ SLAVE_ADDRESS = 0x28
 
 def request_reading():
     # Read a block of 12 bytes starting at SLAVE_ADDRESS, offset 0
-    reading = bus.read_i2c_block_data(SLAVE_ADDRESS, 0, 12)
+    #reading = bus.read_i2c_block_data(SLAVE_ADDRESS, 0, 12)
+    reading = bus.read_i2c_block_data(SLAVE_ADDRESS, 0)
 
     # Extract the IMU reading data
     if reading[0] < 1:

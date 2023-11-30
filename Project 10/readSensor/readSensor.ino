@@ -37,7 +37,7 @@ bool done = false;
 
 // Make the Arduino a slave to the Raspberry Pi
 //int SLAVE_ADDRESS = 0X04;
-int SLAVE_ADDRESS = 0X28;
+const byte SLAVE_ADDRESS = 0x28;
 
 // Toggle in-built LED for verifying program is working
 int ledPin = 13;
