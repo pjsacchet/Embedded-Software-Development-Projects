@@ -16,21 +16,22 @@ SLAVE_ADDRESS = 0x04
 def request_reading():
     # Read a block of 12 bytes starting at SLAVE_ADDRESS, offset 0
     reading = bus.read_i2c_block_data(SLAVE_ADDRESS, 0, 12)
+
     # Extract the IMU reading data
     if reading[0] < 1:
         roll_sign = "+"
     else:
         roll_sign = "-"
-        roll_1 = reading[1]
-        roll_2 = reading[2]
-        roll_3 = reading[3]
+    roll_1 = reading[1]
+    roll_2 = reading[2]
+    roll_3 = reading[3]
     if reading[4] < 1:
         pitch_sign = "+"
     else:
         pitch_sign = "-"
-        pitch_1 = reading[5]
-        pitch_2 = reading[6]
-        pitch_3 = reading[7]
+    pitch_1 = reading[5]
+    pitch_2 = reading[6]
+    pitch_3 = reading[7]
     if reading[8] < 1:
         yaw_sign = "+"
     else:
