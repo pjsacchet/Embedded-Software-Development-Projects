@@ -29,7 +29,8 @@ which provides a common 'type' for sensor data and some helper functions.
 
 /* Set the delay between fresh samples */
 #define BNO055_SAMPLERATE_DELAY_MS (100)
-Adafruit_BNO055 bno = Adafruit_BNO055(55);
+//Adafruit_BNO055 bno = Adafruit_BNO055(55);
+Adafruit_BNO055 bno = Adafruit_BNO055(55, 0x28, &Wire);
 
 // Flag used to stop the program
 bool done = false;
