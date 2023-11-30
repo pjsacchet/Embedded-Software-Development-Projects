@@ -11,7 +11,8 @@ f = open("imu_data.txt", "w")
 # for RPI version 1, use bus = smbus.SMBus(0)
 bus = smbus.SMBus(1)
 # This is the address we setup in the Arduino Program
-SLAVE_ADDRESS = 0x04
+#SLAVE_ADDRESS = 0x04
+SLAVE_ADDRESS = 0x28
 
 def request_reading():
     # Read a block of 12 bytes starting at SLAVE_ADDRESS, offset 0
