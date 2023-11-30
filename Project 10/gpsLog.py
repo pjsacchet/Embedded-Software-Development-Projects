@@ -22,8 +22,8 @@ class GpsPoller(threading.Thread):
         self.running = True
     def run(self):
         global gpsd
-    while gpsp.running:
-        gpsd.next()
+        while gpsp.running:
+            gpsd.next()
 
 if __name__ == '__main__':
     gpsp = GpsPoller()
