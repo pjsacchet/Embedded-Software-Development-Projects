@@ -53,7 +53,7 @@ def request_reading():
             f.close()
 
     except Exception as e:
-        continue
+        pass
 
 # Request IMU data every 5 seconds from the Arduino
 while True:
